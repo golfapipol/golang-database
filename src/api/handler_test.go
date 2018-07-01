@@ -12,8 +12,13 @@ func Test_ReadHandler_Input_Id_1_Should_Be_Id_1_Description_helloworld_Status_20
 	responseWriter := httptest.NewRecorder()
 	expectedStatusCode := 200
 	expectedResultJSON := `{"id":1,"description":"hello world"}`
-
-	ReadHandler(responseWriter, request)
+	stubReadFunc := func(string) (Sayhi, error) {
+		return Sayhi{Id: 1, Description: "hello world"}, nil
+	}
+	api := Api{
+		ReadFunc: stubReadFunc,
+	}
+	api.ReadHandler(responseWriter, request)
 	actualResponse := responseWriter.Result()
 	body, _ := ioutil.ReadAll(actualResponse.Body)
 

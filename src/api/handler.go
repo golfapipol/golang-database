@@ -10,8 +10,16 @@ type Sayhi struct {
 	Description string `json:"description"`
 }
 
-func ReadHandler(response http.ResponseWriter, request *http.Request) {
-	sayhi := Sayhi{Id: 1, Description: "hello world"}
+type Api struct {
+	ReadFunc func(string) (Sayhi, error)
+}
+
+func (api Api) ReadHandler(response http.ResponseWriter, request *http.Request) {
+	id := request.URL.Query().Get("id")
+	sayhi, err := api.ReadFunc(id)
+	if err != nil {
+		http.Error(response, err.Error(), http.StatusInternalServerError)
+	}
 
 	responseSayhi, err := json.Marshal(sayhi)
 	if err != nil {
