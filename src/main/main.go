@@ -1,16 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"api"
 	"net/http"
 )
 
 func main() {
-	http.HandleFunc("/", get)
+	http.HandleFunc("/helloworld/read", api.ReadHandler)
 
 	http.ListenAndServe(":3000", nil)
-}
-
-func get(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprint(w, "Hello world")
 }
