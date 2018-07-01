@@ -11,7 +11,7 @@ func Test_ReadHandler_Input_Id_1_Should_Be_Id_1_Description_helloworld_Status_20
 	request := httptest.NewRequest("GET", url, nil)
 	responseWriter := httptest.NewRecorder()
 	expectedStatusCode := 200
-	expectedResultJSON := "{id:1,description:`hello world`}"
+	expectedResultJSON := `{"id":1,"description":"hello world"}`
 
 	ReadHandler(responseWriter, request)
 	actualResponse := responseWriter.Result()
@@ -21,6 +21,6 @@ func Test_ReadHandler_Input_Id_1_Should_Be_Id_1_Description_helloworld_Status_20
 		t.Errorf("status code is %d but got %d", expectedStatusCode, actualResponse.StatusCode)
 	}
 	if expectedResultJSON != string(body) {
-		t.Errorf("result is %s but got %s", expectedResultJSON, body)
+		t.Errorf("result is\n'%s' \nbut got \n'%s'", expectedResultJSON, body)
 	}
 }
